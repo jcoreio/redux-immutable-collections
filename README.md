@@ -30,8 +30,8 @@ const POSTS = 'POSTS.'
 // different collections.  Here's one way to do it:
 
 const reducer = combineReducers({
-  users: prefixReducer(USERS)(keyedCollectionReducer()),
-  posts: prefixReducer(POSTS)(keyedCollectionReducer()),
+  users: keyedCollectionReducer({enhance: prefixReducer(USERS)}),
+  posts: keyedCollectionReducer({enhance: prefixReducer(POSTS)}),
 })
 
 const userActions = mapValues(actions, prefixActionCreator(USERS))
@@ -51,8 +51,8 @@ store.dispatch(userActions.update('28nkdjas9i23kjsdaf', {
 console.log(store.getState())
 ```
 
-After this `state.toJS()` will look like:
-```json
+The state will look like this:
+```
 Map {
   "users": Map {
     "28nkdjas9i23kjsdaf": Map {
