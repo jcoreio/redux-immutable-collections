@@ -16,9 +16,10 @@ npm i --save redux-immutable-collections
 ### Keyed collections
 
 ```es6
-import {reducer as keyedCollectionReducer, actions} from 'redux-immutable-collections/lib/keyedCollection'
-import {createStore, combineReducers} from 'redux'
+import {reducer as keyedCollectionReducer, actions} from './lib/keyedCollection'
+import {createStore} from 'redux'
 import {prefixActionCreator, prefixReducer} from 'mindfront-redux-utils'
+import {combineReducers} from 'mindfront-redux-utils-immutable'
 import mapValues from 'lodash.mapvalues'
 
 const USERS = 'USERS.'
@@ -29,8 +30,8 @@ const POSTS = 'POSTS.'
 // different collections.  Here's one way to do it:
 
 const reducer = combineReducers({
-  users: prefixReducer(USERS)(keyedCollectionReducer),
-  posts: prefixReducer(POSTS)(keyedCollectionReducer),
+  users: prefixReducer(USERS)(keyedCollectionReducer()),
+  posts: prefixReducer(POSTS)(keyedCollectionReducer()),
 })
 
 const userActions = mapValues(actions, prefixActionCreator(USERS))
@@ -46,19 +47,22 @@ store.dispatch(userActions.insert('28nkdjas9i23kjsdaf', {
 store.dispatch(userActions.update('28nkdjas9i23kjsdaf', {
   email: 'jim@bob.com',
 }))
+
+console.log(store.getState())
 ```
 
-After this the state will look like:
+After this `state.toJS()` will look like:
 ```json
-{
-  "users": {
-    "28nkdjas9i23kjsdaf": {
+Map {
+  "users": Map {
+    "28nkdjas9i23kjsdaf": Map {
       "username": "jimbob",
       "firstName": "Jim",
       "lastName": "Bob",
-      "email": "jim@bob.com",
+      "email": "jim@bob.com"
     }
-  }
+  },
+  "posts": undefined
 }
 ```
 
