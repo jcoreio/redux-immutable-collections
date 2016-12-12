@@ -9,6 +9,10 @@ useful even if you're not using Mongo.
 
 ## Usage
 
+```
+npm i --save redux-immutable-collections
+```
+
 ### Keyed collections
 
 ```es6
