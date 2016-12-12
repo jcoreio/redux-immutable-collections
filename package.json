@@ -1,7 +1,7 @@
 {
   "name": "redux-immutable-collections",
   "version": "0.0.0-development",
-  "description": "Reducers and actions for storing collections of documents in Redux state.",
+  "description": "Reducers and actions for storing collections of documents in Immutable.js collections in Redux state.",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test",
