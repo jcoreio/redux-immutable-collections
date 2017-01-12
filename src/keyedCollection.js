@@ -49,12 +49,12 @@ const defaultOptions = {
 
 export function reducer(options) {
   const {createReducer, createDocument, initialState, enhance} = defaults({}, options, defaultOptions)
-  let reducer = createReducer({
+  let reducer = createReducer(initialState, {
     [INSERT]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc || createDocument(payload)),
     [UPDATE]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc.merge(payload)),
     [REMOVE]: (collection, {meta: {key}}) => collection.delete(key),
     [BATCH]: (collection, {payload}) => collection.withMutations(c => payload.reduce(reducer, c)),
-  }, initialState)
+  })
   if (enhance) reducer = enhance(reducer)
   return reducer
 }
