@@ -72,6 +72,7 @@
     "flow-watch": "^1.1.0",
     "immutable": "^3.8.1",
     "istanbul": "^0.4.5",
+    "lodash.mapvalues": "^4.6.0",
     "mindfront-redux-utils": "^1.2.1",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",

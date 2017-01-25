@@ -45,13 +45,18 @@ const defaultOptions = {
   createReducer,
   createDocument: fromJS,
   initialState: Map(),
+  merge(doc, fields) {
+    if (!doc) return doc
+    if (Object.getPrototypeOf(doc).merge instanceof Function) return doc.merge(fields)
+    return {...doc, ...fields}
+  }
 }
 
 export function reducer(options) {
-  const {createReducer, createDocument, initialState, enhance} = defaults({}, options, defaultOptions)
+  const {createReducer, createDocument, merge, initialState, enhance} = defaults({}, options, defaultOptions)
   let reducer = createReducer(initialState, {
     [INSERT]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc || createDocument(payload)),
-    [UPDATE]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc.merge(payload)),
+    [UPDATE]: (collection, {payload, meta: {key}}) => collection.update(key, doc => merge(doc, payload)),
     [REMOVE]: (collection, {meta: {key}}) => collection.delete(key),
     [BATCH]: (collection, {payload}) => collection.withMutations(c => payload.reduce(reducer, c)),
   })
