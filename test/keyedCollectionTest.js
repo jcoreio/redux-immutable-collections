@@ -1,8 +1,7 @@
 import {Map, fromJS} from 'immutable'
 import chai, {expect} from 'chai'
 import chaiImmutable from 'chai-immutable'
-import {prefixReducer, prefixActionCreator, createReducer} from 'mindfront-redux-utils'
-import mapValues from 'lodash.mapvalues'
+import {createReducer} from 'mindfront-redux-utils'
 import {reducer as keyedCollectionReducer, actions} from '../src/keyedCollection'
 
 chai.use(chaiImmutable)
