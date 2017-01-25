@@ -7,41 +7,46 @@ export const UPDATE = 'UPDATE'
 export const REMOVE = 'REMOVE'
 export const BATCH = 'BATCH'
 
-export function insert(key, fields) {
+export function actions(actionTypePrefix = '') {
   return {
-    type: INSERT,
-    payload: fields,
-    meta: {key},
+    insert(key, fields) {
+      return {
+        type: actionTypePrefix + INSERT,
+        payload: fields,
+        meta: {key},
+      }
+    },
+    update(key, fields) {
+      return {
+        type: actionTypePrefix + UPDATE,
+        payload: fields,
+        meta: {key},
+      }
+    },
+    remove(key) {
+      return {
+        type: actionTypePrefix + REMOVE,
+        meta: {key},
+      }
+    },
+    batch(actions) {
+      if (actions.length === 1) return actions[0]
+      return {
+        type: actionTypePrefix + BATCH,
+        payload: actions,
+      }
+    }
   }
 }
 
-export function update(key, fields) {
-  return {
-    type: UPDATE,
-    payload: fields,
-    meta: {key},
-  }
-}
-
-export function remove(key) {
-  return {
-    type: REMOVE,
-    meta: {key},
-  }
-}
-
-export function batch(actions) {
-  return {
-    type: BATCH,
-    payload: actions,
-  }
-}
-
-export const actions = {
-  insert, update, remove, batch,
-}
+// this looks confusing...it just maintains backwards compatibility with old actions export
+// by assigning unprefixed actions to the actions function
+const {insert, update, remove, batch} = actions()
+export {insert, update, remove, batch}
+Object.assign(actions, {insert, update, remove, batch})
 
 const defaultOptions = {
+  actionTypePrefix: '',
   createReducer,
   createDocument: fromJS,
   initialState: Map(),
@@ -53,12 +58,12 @@ const defaultOptions = {
 }
 
 export function reducer(options) {
-  const {createReducer, createDocument, merge, initialState, enhance} = defaults({}, options, defaultOptions)
+  const {createReducer, createDocument, merge, initialState, enhance, actionTypePrefix} = defaults({}, options, defaultOptions)
   let reducer = createReducer(initialState, {
-    [INSERT]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc || createDocument(payload)),
-    [UPDATE]: (collection, {payload, meta: {key}}) => collection.update(key, doc => merge(doc, payload)),
-    [REMOVE]: (collection, {meta: {key}}) => collection.delete(key),
-    [BATCH]: (collection, {payload}) => collection.withMutations(c => payload.reduce(reducer, c)),
+    [actionTypePrefix + INSERT]: (collection, {payload, meta: {key}}) => collection.update(key, doc => doc || createDocument(payload)),
+    [actionTypePrefix + UPDATE]: (collection, {payload, meta: {key}}) => collection.update(key, doc => merge(doc, payload)),
+    [actionTypePrefix + REMOVE]: (collection, {meta: {key}}) => collection.delete(key),
+    [actionTypePrefix + BATCH]: (collection, {payload}) => collection.withMutations(c => payload.reduce(reducer, c)),
   })
   if (enhance) reducer = enhance(reducer)
   return reducer

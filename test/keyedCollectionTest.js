@@ -68,6 +68,9 @@ describe('keyedCollectionReducer', () => {
           b: {b: 2},
         }))
       })
+      it('returns single action instead of wrapping it', () => {
+        expect(batch([insert('a', {a: 1})])).to.deep.equal(insert('a', {a: 1}))
+      })
     })
   }
 
@@ -75,8 +78,8 @@ describe('keyedCollectionReducer', () => {
     tests(actions, keyedCollectionReducer())
   })
   describe('enhanced with action type prefixes', () => {
-    tests(mapValues(actions, prefixActionCreator('TEST.')), keyedCollectionReducer({
-      enhance: prefixReducer('TEST.'),
+    tests(actions('TEST.'), keyedCollectionReducer({
+      actionTypePrefix: 'TEST.',
     }))
   })
   describe('with createReducer from mindfront-redux-utils', () => {
