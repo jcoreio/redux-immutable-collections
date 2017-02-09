@@ -87,6 +87,9 @@
     "semantic-release": "^6.3.2",
     "validate-commit-msg": "^2.8.2"
   },
+  "peerDependencies": {
+    "immutable": "^3.8.1"
+  },
   "dependencies": {
     "lodash.defaults": "^4.2.0"
   }
