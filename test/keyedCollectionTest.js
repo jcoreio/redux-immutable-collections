@@ -8,7 +8,12 @@ chai.use(chaiImmutable)
 
 describe('keyedCollectionReducer', () => {
   function tests(actions, reducer) {
-    const {insert, update, remove, batch} = actions
+    const {clear, insert, update, remove, batch} = actions
+    describe('clear', () => {
+      it('clears collection', () => {
+        expect(reducer(Map({hello: 'world'}), clear())).to.equal(fromJS({}))
+      })
+    })
     describe('insert', () => {
       it('inserts if no document exists', () => {
         expect(reducer(undefined, insert('a', {hello: 'world'}))).to.equal(fromJS({a: {hello: 'world'}}))

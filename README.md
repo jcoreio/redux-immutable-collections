@@ -82,3 +82,5 @@ store.dispatch(userActions.batch([
 ]))
 ```
 
+There is a `clear` action as well that will clear the collection.
+
