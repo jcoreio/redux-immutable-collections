@@ -80,7 +80,7 @@
     "husky": "^0.12.0",
     "istanbul": "^0.4.5",
     "lodash.mapvalues": "^4.6.0",
-    "mindfront-redux-utils": "^1.2.1",
+    "mindfront-redux-utils": "1.4.0",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.5.4",
