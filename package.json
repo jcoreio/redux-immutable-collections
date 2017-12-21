@@ -74,13 +74,13 @@
     "eslint": "^4.1.0",
     "eslint-plugin-flowtype": "^2.30.4",
     "eslint-watch": "^3.1.0",
-    "flow-bin": "^0.43.1",
+    "flow-bin": "^0.56.0",
     "flow-watch": "^1.1.1",
     "husky": "^0.14.0",
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.9",
     "istanbul": "^0.4.5",
     "lodash.mapvalues": "^4.6.0",
-    "mindfront-redux-utils": "^1.6.0",
+    "mindfront-redux-utils": "^1.6.1",
     "mocha": "^3.2.0",
     "nyc": "^11.0.0",
     "rimraf": "^2.6.1",
@@ -88,7 +88,7 @@
     "validate-commit-msg": "^2.12.1"
   },
   "peerDependencies": {
-    "immutable": "^3.8.1"
+    "immutable": "^4.0.0 || ^4.0.0-rc"
   },
   "dependencies": {
     "lodash.defaults": "^4.2.0"
